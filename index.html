@@ -244,10 +244,10 @@
       </div>
 
       <div class="card discord">
-        <h3>💬 Ahli Discord</h3>
-        <div class="number">Loading...</div>
-        <p>MYSIA Discord Server</p>
-      </div>
+    <h3>💬 Ahli Discord</h3>
+    <div class="number">Loading...</div>
+    <p>MYSIA Discord Server</p>
+</div>
 
     </section>
 
@@ -418,6 +418,60 @@ async function loadDiscordMembers() {
 loadDiscordMembers();
 
 setInterval(loadDiscordMembers, 60000);
+  <script>
+async function loadDiscordMembers() {
+    try {
+        const response = await fetch("/api/discord-guild", {
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error("Discord API error");
+        }
+
+        const data = await response.json();
+
+        if (!data.success || typeof data.memberCount !== "number") {
+            throw new Error("Invalid Discord data");
+        }
+
+        const discordCard = document.querySelector(".card.discord");
+
+        if (!discordCard) {
+            console.error("Discord card not found");
+            return;
+        }
+
+        const numberElement = discordCard.querySelector(".number");
+
+        if (numberElement) {
+            numberElement.textContent =
+                data.memberCount.toLocaleString();
+        }
+
+        const description = discordCard.querySelector("p");
+
+        if (description && data.serverName) {
+            description.textContent = data.serverName;
+        }
+
+    } catch (error) {
+        console.error("Failed to load Discord members:", error);
+
+        const discordCard = document.querySelector(".card.discord");
+
+        if (discordCard) {
+            const numberElement = discordCard.querySelector(".number");
+
+            if (numberElement) {
+                numberElement.textContent = "Unavailable";
+            }
+        }
+    }
+}
+
+loadDiscordMembers();
+</script>
 </body>
 </html>
   
