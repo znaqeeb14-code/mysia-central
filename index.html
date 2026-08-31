@@ -238,15 +238,16 @@
 
     <section class="stats">
 
-      <div class="card">
-        <h3>🎮 Ahli Roblox</h3>
-<div class="number roblox-number">Loading...</div> <p>MYSIA Roblox Group</p>
-      </div>
+   <div class="card">
+  <h3>🎮 Ahli Roblox</h3>
+  <div class="number roblox-number">Loading...</div>
+  <p>MYSIA Roblox Group</p>
+</div>
 
-      <div class="card discord">
-    <h3>💬 Ahli Discord</h3>
-   <div class="number discord-number">Loading...</div>
-    <p>MYSIA Discord Server</p>
+<div class="card discord">
+  <h3>💬 Ahli Discord</h3>
+  <div class="number discord-number">Loading...</div>
+  <p>MYSIA Discord Server</p>
 </div>
 
     </section>
@@ -495,49 +496,80 @@ document.addEventListener("DOMContentLoaded", () => {
       robloxNumber.textContent = "Tidak tersedia";
     }
   }
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
 
+  const robloxNumber = document.querySelector(".roblox-number");
+  const discordNumber = document.querySelector(".discord-number");
 
-  async function loadDiscordMembers() {
+  async function loadRobloxMembers() {
     try {
-      discordNumber.textContent = "Loading...";
-
-      const response = await fetch("/api/discord-guild", {
-        method: "GET",
+      const response = await fetch("/api/roblox-group", {
         cache: "no-store"
       });
 
       if (!response.ok) {
-        throw new Error(`Discord API ${response.status}`);
+        throw new Error("Roblox API Error: " + response.status);
       }
 
       const data = await response.json();
 
       if (!data.success || typeof data.memberCount !== "number") {
-        throw new Error("Invalid Discord response");
+        throw new Error("Invalid Roblox API response");
+      }
+
+      robloxNumber.textContent =
+        data.memberCount.toLocaleString("en-US");
+
+    } catch (error) {
+      console.error("Roblox Error:", error);
+      robloxNumber.textContent = "Tidak tersedia";
+    }
+  }
+
+
+  async function loadDiscordMembers() {
+    try {
+      const response = await fetch("/api/discord-guild", {
+        cache: "no-store"
+      });
+
+      if (!response.ok) {
+        throw new Error("Discord API Error: " + response.status);
+      }
+
+      const data = await response.json();
+
+      console.log("Discord API:", data);
+
+      if (!data.success || typeof data.memberCount !== "number") {
+        throw new Error("Invalid Discord API response");
       }
 
       discordNumber.textContent =
-        data.memberCount.toLocaleString();
+        data.memberCount.toLocaleString("en-US");
 
     } catch (error) {
-      console.error("Discord error:", error);
+      console.error("Discord Error:", error);
       discordNumber.textContent = "Tidak tersedia";
     }
   }
 
 
-  // Load when page opens
+  // Jalankan apabila website dibuka
   loadRobloxMembers();
   loadDiscordMembers();
 
-  // Refresh every 60 seconds
+
+  // Auto-update setiap 60 saat
   setInterval(loadRobloxMembers, 60000);
   setInterval(loadDiscordMembers, 60000);
 
 });
 </script>
-loadDiscordMembers();
-</script>
+
+</body>
+</html>
 </body>
 </html>
   
