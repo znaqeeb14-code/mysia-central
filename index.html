@@ -240,12 +240,12 @@
 
       <div class="card">
         <h3>🎮 Ahli Roblox</h3>
-<div class="number discord-number">Loading...</div>        <p>MYSIA Roblox Group</p>
+<div class="number roblox-number">Loading...</div> <p>MYSIA Roblox Group</p>
       </div>
 
       <div class="card discord">
     <h3>💬 Ahli Discord</h3>
-    <div class="number">Loading...</div>
+   <div class="number discord-number">Loading...</div>
     <p>MYSIA Discord Server</p>
 </div>
 
@@ -375,8 +375,50 @@ export default async function handler(req, res) {
 </script>
 <script>
 async function loadDiscordMembers() {
-  const discordNumber = document.querySelector(".discord .number");
+  const discordCards = document.querySelectorAll(".card.discord");
+  const memberElements = document.querySelectorAll(".discord-number");
 
+  try {
+    const response = await fetch("/api/discord-guild", {
+      method: "GET",
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    console.log("Discord API:", data);
+
+    if (!data.success || typeof data.memberCount !== "number") {
+      throw new Error("Invalid Discord API response");
+    }
+
+    // Paparkan jumlah ahli
+    memberElements.forEach(element => {
+      element.textContent = data.memberCount.toLocaleString();
+    });
+
+    // Jika ada card Discord
+    discordCards.forEach(card => {
+      card.classList.add("loaded");
+    });
+
+  } catch (error) {
+    console.error("Discord member error:", error);
+
+    memberElements.forEach(element => {
+      element.textContent = "—";
+    });
+  }
+}
+
+// Jalankan selepas page siap
+document.addEventListener("DOMContentLoaded", () => {
+  loadDiscordMembers();
+});
   try {
     const response = await fetch("/api/discord-guid", {
       cache: "no-store"
