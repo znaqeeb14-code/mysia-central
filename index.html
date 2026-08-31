@@ -240,8 +240,7 @@
 
       <div class="card">
         <h3>🎮 Ahli Roblox</h3>
-        <div class="number">Loading...</div>
-        <p>MYSIA Roblox Group</p>
+<div class="number discord-number">Loading...</div>        <p>MYSIA Roblox Group</p>
       </div>
 
       <div class="card discord">
@@ -374,7 +373,51 @@ export default async function handler(req, res) {
   }
 }
 </script>
+<script>
+async function loadDiscordMembers() {
+  const discordNumber = document.querySelector(".discord .number");
 
+  try {
+    const response = await fetch("/api/discord-guid", {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error("Discord API error");
+    }
+
+    const data = await response.json();
+
+    if (!data.success || typeof data.memberCount !== "number") {
+      throw new Error("Invalid Discord data");
+    }
+
+    discordNumber.textContent =
+      data.memberCount.toLocaleString("en-US");
+
+    localStorage.setItem(
+      "discordMemberCount",
+      data.memberCount
+    );
+
+  } catch (error) {
+    console.error("Failed to load Discord members:", error);
+
+    const savedCount =
+      localStorage.getItem("discordMemberCount");
+
+    if (savedCount) {
+      discordNumber.textContent =
+        Number(savedCount).toLocaleString("en-US");
+    } else {
+      discordNumber.textContent = "Tidak tersedia";
+    }
+  }
+}
+
+loadDiscordMembers();
+
+setInterval(loadDiscordMembers, 60000);
 </body>
 </html>
   
