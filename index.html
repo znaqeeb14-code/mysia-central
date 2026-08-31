@@ -288,5 +288,54 @@
     © 2026 MYSIA · MYSIA Central
   </footer>
 
+<script>
+async function loadRobloxMembers() {
+  const memberNumber = document.querySelector(".card .number");
+
+  try {
+    const response = await fetch("/api/roblox-group", {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error("Roblox API error");
+    }
+
+    const data = await response.json();
+
+    if (!data.success || typeof data.memberCount !== "number") {
+      throw new Error("Invalid Roblox data");
+    }
+
+    const count = data.memberCount;
+
+    memberNumber.textContent =
+      count.toLocaleString("en-US");
+
+    localStorage.setItem("robloxMemberCount", count);
+
+  } catch (error) {
+    console.error("Failed to load Roblox members:", error);
+
+    const savedCount =
+      localStorage.getItem("robloxMemberCount");
+
+    if (savedCount) {
+      memberNumber.textContent =
+        Number(savedCount).toLocaleString("en-US");
+    } else {
+      memberNumber.textContent = "Tidak tersedia";
+    }
+  }
+}
+
+loadRobloxMembers();
+
+setInterval(loadRobloxMembers, 60000);
+</script>
+
+</body>
+</html>
+  
 </body>
 </html>
