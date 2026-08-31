@@ -1,6 +1,5 @@
 export default async function handler(req, res) {
   const INVITE_CODE = "QuXZDgRWd2";
-
   try {
     const response = await fetch(
       `https://discord.com/api/v10/invites/${INVITE_CODE}?with_counts=true`,
