@@ -460,58 +460,82 @@ document.addEventListener("DOMContentLoaded", () => {
 loadDiscordMembers();
 
 setInterval(loadDiscordMembers, 60000);
-  <script>
-async function loadDiscordMembers() {
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const cards = document.querySelectorAll(".stats .card .number");
+
+  const robloxNumber = cards[0];
+  const discordNumber = cards[1];
+
+  async function loadRobloxMembers() {
     try {
-        const response = await fetch("/api/discord-guild", {
-            cache: "no-store"
-        });
+      robloxNumber.textContent = "Loading...";
 
-        if (!response.ok) {
-            throw new Error("Discord API error");
-        }
+      const response = await fetch("/api/roblox-group", {
+        method: "GET",
+        cache: "no-store"
+      });
 
-        const data = await response.json();
+      if (!response.ok) {
+        throw new Error(`Roblox API ${response.status}`);
+      }
 
-        if (!data.success || typeof data.memberCount !== "number") {
-            throw new Error("Invalid Discord data");
-        }
+      const data = await response.json();
 
-        const discordCard = document.querySelector(".card.discord");
+      if (!data.success || typeof data.memberCount !== "number") {
+        throw new Error("Invalid Roblox response");
+      }
 
-        if (!discordCard) {
-            console.error("Discord card not found");
-            return;
-        }
-
-        const numberElement = discordCard.querySelector(".number");
-
-        if (numberElement) {
-            numberElement.textContent =
-                data.memberCount.toLocaleString();
-        }
-
-        const description = discordCard.querySelector("p");
-
-        if (description && data.serverName) {
-            description.textContent = data.serverName;
-        }
+      robloxNumber.textContent =
+        data.memberCount.toLocaleString();
 
     } catch (error) {
-        console.error("Failed to load Discord members:", error);
-
-        const discordCard = document.querySelector(".card.discord");
-
-        if (discordCard) {
-            const numberElement = discordCard.querySelector(".number");
-
-            if (numberElement) {
-                numberElement.textContent = "Unavailable";
-            }
-        }
+      console.error("Roblox error:", error);
+      robloxNumber.textContent = "Tidak tersedia";
     }
-}
+  }
 
+
+  async function loadDiscordMembers() {
+    try {
+      discordNumber.textContent = "Loading...";
+
+      const response = await fetch("/api/discord-guild", {
+        method: "GET",
+        cache: "no-store"
+      });
+
+      if (!response.ok) {
+        throw new Error(`Discord API ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (!data.success || typeof data.memberCount !== "number") {
+        throw new Error("Invalid Discord response");
+      }
+
+      discordNumber.textContent =
+        data.memberCount.toLocaleString();
+
+    } catch (error) {
+      console.error("Discord error:", error);
+      discordNumber.textContent = "Tidak tersedia";
+    }
+  }
+
+
+  // Load when page opens
+  loadRobloxMembers();
+  loadDiscordMembers();
+
+  // Refresh every 60 seconds
+  setInterval(loadRobloxMembers, 60000);
+  setInterval(loadDiscordMembers, 60000);
+
+});
+</script>
 loadDiscordMembers();
 </script>
 </body>
