@@ -3,570 +3,421 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>MYSIA Central</title>
 
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
     }
 
     body {
-      background: #071326;
-      color: #f5f7fa;
+      margin: 0;
       min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #06111f;
+      color: #ffffff;
     }
 
-    .topbar {
-      height: 72px;
-      background: #0c1b35;
-      border-bottom: 1px solid #263957;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 28px;
+    header {
+      padding: 30px 20px;
+      text-align: center;
+      background: #071a2d;
+      border-bottom: 1px solid #16456d;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 22px;
-      font-weight: bold;
+    header h1 {
+      margin: 0;
+      font-size: 34px;
     }
 
-    .logo {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: #d8b44a;
-      color: #071326;
+    header p {
+      margin: 8px 0 0;
+      color: #9ec9ed;
+    }
+
+    nav {
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-weight: bold;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 18px;
+      background: #081a2c;
     }
 
-    .profile {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: #d8b44a;
-      color: #071326;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
+    nav a {
+      padding: 10px 18px;
+      color: white;
+      text-decoration: none;
+      background: #103452;
+      border: 1px solid #1c5b89;
+      border-radius: 10px;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 35px 24px;
+    nav a:hover {
+      background: #15517c;
+    }
+
+    main {
+      width: min(1100px, 92%);
+      margin: 35px auto;
     }
 
     .welcome {
-      background: linear-gradient(135deg, #10294d, #0b1930);
-      border: 1px solid #354b69;
-      border-radius: 24px;
-      padding: 32px;
-      margin-bottom: 28px;
+      padding: 30px;
+      border-radius: 20px;
+      background: linear-gradient(
+        135deg,
+        #0b3c68,
+        #087ca5
+      );
+      margin-bottom: 25px;
     }
 
-    .welcome small {
-      color: #8ea4c6;
-      font-size: 16px;
-    }
-
-    .welcome h1 {
-      margin-top: 8px;
-      font-size: 34px;
+    .welcome h2 {
+      margin: 15px 0 8px;
+      font-size: 30px;
     }
 
     .status {
       display: inline-block;
-      margin-top: 18px;
-      padding: 8px 16px;
+      padding: 7px 14px;
       border-radius: 20px;
-      background: #123c34;
-      color: #4ade80;
-      border: 1px solid #246b59;
+      background: #0b8f55;
+      font-size: 14px;
     }
 
-    .stats {
+    .cards {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns:
+        repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
-      margin-bottom: 28px;
     }
 
     .card {
-      background: #0d1d38;
-      border: 1px solid #273d60;
-      border-radius: 20px;
-      padding: 26px;
+      padding: 25px;
+      min-height: 190px;
+      border-radius: 18px;
+      background: #0b2035;
+      border: 1px solid #174d75;
+      box-shadow: 0 8px 25px rgba(0,0,0,.25);
     }
 
     .card h3 {
-      color: #9db0cc;
-      font-size: 16px;
-      margin-bottom: 14px;
+      margin-top: 0;
+      color: #9edaff;
     }
 
     .number {
-      font-size: 38px;
+      margin: 15px 0;
+      font-size: 42px;
       font-weight: bold;
-      color: #d8b44a;
     }
 
-    .discord .number {
-      color: #7eaaff;
+    .loading {
+      color: #ffd45c;
     }
 
-    .card p {
-      color: #7186a5;
-      margin-top: 8px;
+    .error {
+      color: #ff6b6b;
     }
 
-    .section {
-      background: #0d1d38;
-      border: 1px solid #273d60;
-      border-radius: 20px;
-      padding: 26px;
-      margin-bottom: 20px;
-    }
-
-    .section h2 {
-      margin-bottom: 20px;
-      font-size: 21px;
-    }
-
-    .announcement {
-      padding: 16px;
-      border-radius: 14px;
-      background: #111f38;
-      border: 1px solid #253957;
-      margin-bottom: 12px;
-    }
-
-    .announcement strong {
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .announcement span {
-      color: #8498b5;
-      font-size: 14px;
-    }
-
-    .nav {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 30px;
-    }
-
-    .nav button {
-      background: #10223f;
-      color: #dbe5f4;
-      border: 1px solid #2b4264;
-      border-radius: 12px;
-      padding: 12px 18px;
-      cursor: pointer;
-    }
-
-    .nav button:hover {
-      background: #182e50;
+    .button {
+      display: inline-block;
+      padding: 11px 18px;
+      border-radius: 10px;
+      background: #5865F2;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
     }
 
     footer {
+      margin-top: 50px;
+      padding: 25px;
       text-align: center;
-      color: #61738f;
-      padding: 30px;
-      font-size: 14px;
-    }
-
-    @media (max-width: 700px) {
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .welcome h1 {
-        font-size: 27px;
-      }
-
-      .container {
-        padding: 24px 16px;
-      }
-
-      .topbar {
-        padding: 0 16px;
-      }
+      color: #7894aa;
+      border-top: 1px solid #173b59;
     }
   </style>
 </head>
 
 <body>
 
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo">M</div>
-      <span>MYSIA Central</span>
+<header>
+  <h1>MYSIA Central</h1>
+  <p>Portal Rasmi Komuniti MYSIA</p>
+</header>
+
+<nav>
+  <a href="/">Dashboard</a>
+  <a href="#">Members</a>
+  <a href="#">Organizations</a>
+  <a href="#">Agencies</a>
+  <a href="#">Announcements</a>
+  <a href="#">Settings</a>
+</nav>
+
+<main>
+
+  <section class="welcome">
+    <span class="status">
+      ● Sistem Aktif
+    </span>
+
+    <h2>
+      Selamat Datang ke MYSIA Central
+    </h2>
+
+    <p>
+      Portal utama komuniti MYSIA.
+    </p>
+  </section>
+
+
+  <section class="cards">
+
+    <!-- DISCORD -->
+
+    <div class="card">
+
+      <h3>
+        💬 Ahli Discord
+      </h3>
+
+      <div
+        id="discordMemberCount"
+        class="number loading"
+      >
+        Loading...
+      </div>
+
+      <p>
+        MYSIA Discord Server
+      </p>
+
+      <a
+        class="button"
+        href="https://discord.gg/SdzS8rgRHF"
+        target="_blank"
+        rel="noopener"
+      >
+        Join Discord
+      </a>
+
     </div>
 
-    <div class="profile">A</div>
-  </header>
 
-  <main class="container">
+    <!-- ROBLOX -->
 
-    <nav class="nav">
-      <button>Dashboard</button>
-      <button>Members</button>
-      <button>Organizations</button>
-      <button>Agencies</button>
-      <button>Announcements</button>
-      <button>Settings</button>
-    </nav>
+    <div class="card">
 
-    <section class="welcome">
-      <small>Selamat Datang ke MYSIA Central</small>
-      <h1>MYSIA Portal</h1>
-      <div class="status">● Sistem Aktif</div>
-    </section>
+      <h3>
+        🎮 Ahli Roblox
+      </h3>
 
-    <section class="stats">
-
-   <div class="card">
-  <h3>🎮 Ahli Roblox</h3>
-  <div class="number roblox-number">Loading...</div>
-  <p>MYSIA Roblox Group</p>
-</div>
-
-<div class="card discord">
-  <h3>💬 Ahli Discord</h3>
-  <div class="number discord-number">Loading...</div>
-  <p>MYSIA Discord Server</p>
-</div>
-
-    </section>
-
-    <section class="section">
-      <h2>📢 Pengumuman</h2>
-
-      <div class="announcement">
-        <strong>Selamat datang ke MYSIA Central</strong>
-        <span>Portal rasmi komuniti MYSIA.</span>
+      <div
+        id="robloxMemberCount"
+        class="number"
+      >
+        —
       </div>
 
-      <div class="announcement">
-        <strong>Portal sedang dalam pembangunan</strong>
-        <span>Lebih banyak fungsi akan ditambah tidak lama lagi.</span>
+      <p>
+        MYSIA Roblox Group
+      </p>
+
+    </div>
+
+
+    <!-- SYSTEM -->
+
+    <div class="card">
+
+      <h3>
+        🌐 Status Sistem
+      </h3>
+
+      <div class="number">
+        ●
       </div>
 
-    </section>
+      <p>
+        Sistem MYSIA Central sedang aktif.
+      </p>
 
-    <section class="section">
-      <h2>⚡ Sistem MYSIA</h2>
+    </div>
 
-      <div class="announcement">
-        <strong>Roblox Integration</strong>
-        <span>Menunggu sambungan API Roblox.</span>
-      </div>
+  </section>
 
-      <div class="announcement">
-        <strong>Discord Integration</strong>
-        <span>Menunggu sambungan Discord API.</span>
-      </div>
+</main>
 
-    </section>
 
-  </main>
+<footer>
+  © 2026 MYSIA Central
+</footer>
 
-  <footer>
-    © 2026 MYSIA · MYSIA Central
-  </footer>
 
 <script>
-async function loadRobloxMembers() {
-  const memberNumber = document.querySelector(".card .number");
 
-  try {
-    const response = await fetch("/api/roblox-group", {
-      cache: "no-store"
-    });
+  /*
+   * =====================================
+   * MYSIA CENTRAL
+   * DISCORD MEMBER COUNTER
+   * =====================================
+   *
+   * Nota:
+   * Browser tidak boleh terus panggil
+   * Discord API untuk kes ini.
+   *
+   * Jadi code ini cuba ambil data daripada
+   * endpoint /api/discord.
+   *
+   * Jika endpoint itu belum wujud, kita
+   * gunakan fallback supaya website tetap
+   * boleh berjalan.
+   */
 
-    if (!response.ok) {
-      throw new Error("Roblox API error");
+
+  const DISCORD_INVITE =
+    "SdzS8rgRHF";
+
+
+  const DISCORD_URL =
+    "https://discord.gg/" + DISCORD_INVITE;
+
+
+  async function getDiscordMembers() {
+
+    const counter =
+      document.getElementById(
+        "discordMemberCount"
+      );
+
+
+    if (!counter) {
+      return;
     }
 
-    const data = await response.json();
 
-    if (!data.success || typeof data.memberCount !== "number") {
-      throw new Error("Invalid Roblox data");
-    }
-
-    const count = data.memberCount;
-
-    memberNumber.textContent =
-      count.toLocaleString("en-US");
-
-    localStorage.setItem("robloxMemberCount", count);
-
-  } catch (error) {
-    console.error("Failed to load Roblox members:", error);
-
-    const savedCount =
-      localStorage.getItem("robloxMemberCount");
-
-    if (savedCount) {
-      memberNumber.textContent =
-        Number(savedCount).toLocaleString("en-US");
-    } else {
-      memberNumber.textContent = "Tidak tersedia";
-    }
-  }
-}
-
-export default async function handler(req, res) {
-  const INVITE_CODE = "QuXZDgRWd2";
-
-  try {
-    const response = await fetch(
-      `https://discord.com/api/v10/invites/${INVITE_CODE}?with_counts=true`,
-      {
-        headers: {
-          "User-Agent": "MYSIA-Central/1.0"
-        },
-        cache: "no-store"
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Discord API returned ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    const memberCount = data.approximate_member_count;
-
-    if (typeof memberCount !== "number") {
-      throw new Error("Discord member count unavailable");
-    }
-
-    res.setHeader("Cache-Control", "no-store");
-
-    res.status(200).json({
-      success: true,
-      memberCount,
-      serverName: data.guild?.name ?? "MYSIA Discord",
-      source: "Discord Invite API"
-    });
-
-  } catch (error) {
-    console.error("Discord API error:", error);
-
-    res.status(500).json({
-      success: false,
-      error: "Unable to retrieve Discord member count"
-    });
-  }
-}
-</script>
-<script>
-async function loadDiscordMembers() {
-  const memberElements = document.querySelectorAll(".discord-number");
-
-  try {
-    const response = await fetch("/api/discord", {
-      method: "GET",
-      cache: "no-store",
-      headers: {
-        "Accept": "application/json"
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`API returned ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    if (!data.success || typeof data.memberCount !== "number") {
-      throw new Error("Discord member count unavailable");
-    }
-
-    memberElements.forEach((element) => {
-      element.textContent = data.memberCount.toLocaleString();
-    });
-
-    console.log(
-      `Discord members loaded: ${data.memberCount}`
-    );
-
-  } catch (error) {
-    console.error("Discord member loading error:", error);
-
-    memberElements.forEach((element) => {
-      element.textContent = "—";
-    });
-  }
-}
-// Jalankan selepas page siap
-document.addEventListener("DOMContentLoaded", () => {
-  loadDiscordMembers();
-});
-  try {
-    const response = await fetch("/api/discord-guid", {
-      cache: "no-store"
-    });
-
-    if (!response.ok) {
-      throw new Error("Discord API error");
-    }
-
-    const data = await response.json();
-
-    if (!data.success || typeof data.memberCount !== "number") {
-      throw new Error("Invalid Discord data");
-    }
-
-    discordNumber.textContent =
-      data.memberCount.toLocaleString("en-US");
-
-    localStorage.setItem(
-      "discordMemberCount",
-      data.memberCount
-    );
-
-  } catch (error) {
-    console.error("Failed to load Discord members:", error);
-
-    const savedCount =
-      localStorage.getItem("discordMemberCount");
-
-    if (savedCount) {
-      discordNumber.textContent =
-        Number(savedCount).toLocaleString("en-US");
-    } else {
-      discordNumber.textContent = "Tidak tersedia";
-    }
-  }
-}
-
-loadDiscordMembers();
-
-setInterval(loadDiscordMembers, 60000);
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  const cards = document.querySelectorAll(".stats .card .number");
-
-  const robloxNumber = cards[0];
-  const discordNumber = cards[1];
-
-  async function loadRobloxMembers() {
     try {
-      robloxNumber.textContent = "Loading...";
 
-      const response = await fetch("/api/roblox-group", {
-        method: "GET",
-        cache: "no-store"
-      });
+      /*
+       * Cuba panggil API MYSIA
+       */
+
+      const response =
+        await fetch(
+          "/api/discord?t=" +
+          Date.now(),
+          {
+            method: "GET",
+            cache: "no-store",
+            headers: {
+              "Accept":
+                "application/json"
+            }
+          }
+        );
+
 
       if (!response.ok) {
-        throw new Error(`Roblox API ${response.status}`);
+        throw new Error(
+          "API HTTP " +
+          response.status
+        );
       }
 
-      const data = await response.json();
 
-      if (!data.success || typeof data.memberCount !== "number") {
-        throw new Error("Invalid Roblox response");
+      const data =
+        await response.json();
+
+
+      console.log(
+        "Discord API:",
+        data
+      );
+
+
+      if (
+        data.success === true &&
+        typeof data.memberCount ===
+          "number"
+      ) {
+
+        counter.textContent =
+          data.memberCount
+            .toLocaleString("en-US");
+
+        counter.classList.remove(
+          "loading"
+        );
+
+        counter.classList.remove(
+          "error"
+        );
+
+        return;
       }
 
-      robloxNumber.textContent =
-        data.memberCount.toLocaleString();
+
+      throw new Error(
+        "Member count tidak tersedia"
+      );
+
 
     } catch (error) {
-      console.error("Roblox error:", error);
-      robloxNumber.textContent = "Tidak tersedia";
+
+      console.error(
+        "Discord API error:",
+        error
+      );
+
+
+      /*
+       * Jangan biarkan Loading selamanya.
+       */
+
+      counter.textContent =
+        "—";
+
+      counter.classList.remove(
+        "loading"
+      );
+
+      counter.classList.add(
+        "error"
+      );
+
     }
-  }
-  <script>
-document.addEventListener("DOMContentLoaded", function () {
 
-  const robloxNumber = document.querySelector(".roblox-number");
-  const discordNumber = document.querySelector(".discord-number");
-
-  async function loadRobloxMembers() {
-    try {
-      const response = await fetch("/api/roblox-group", {
-        cache: "no-store"
-      });
-
-      if (!response.ok) {
-        throw new Error("Roblox API Error: " + response.status);
-      }
-
-      const data = await response.json();
-
-      if (!data.success || typeof data.memberCount !== "number") {
-        throw new Error("Invalid Roblox API response");
-      }
-
-      robloxNumber.textContent =
-        data.memberCount.toLocaleString("en-US");
-
-    } catch (error) {
-      console.error("Roblox Error:", error);
-      robloxNumber.textContent = "Tidak tersedia";
-    }
-  }
-
-
-  async function loadDiscordMembers() {
-    try {
-      const response = await fetch("/api/discord-guild", {
-        cache: "no-store"
-      });
-
-      if (!response.ok) {
-        throw new Error("Discord API Error: " + response.status);
-      }
-
-      const data = await response.json();
-
-      console.log("Discord API:", data);
-
-      if (!data.success || typeof data.memberCount !== "number") {
-        throw new Error("Invalid Discord API response");
-      }
-
-      discordNumber.textContent =
-        data.memberCount.toLocaleString("en-US");
-
-    } catch (error) {
-      console.error("Discord Error:", error);
-      discordNumber.textContent = "Tidak tersedia";
-    }
   }
 
 
-  // Jalankan apabila website dibuka
-  loadRobloxMembers();
-  loadDiscordMembers();
+  /*
+   * Jalankan apabila page siap
+   */
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+      getDiscordMembers();
+
+    }
+  );
 
 
-  // Auto-update setiap 60 saat
-  setInterval(loadRobloxMembers, 60000);
-  setInterval(loadDiscordMembers, 60000);
+  /*
+   * Refresh setiap 60 saat
+   */
 
-});
+  setInterval(
+    getDiscordMembers,
+    60000
+  );
+
 </script>
 
 </body>
 </html>
-</body>
-</html>
-  
