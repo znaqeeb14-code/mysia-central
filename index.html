@@ -376,46 +376,43 @@ export default async function handler(req, res) {
 </script>
 <script>
 async function loadDiscordMembers() {
-  const discordCards = document.querySelectorAll(".card.discord");
   const memberElements = document.querySelectorAll(".discord-number");
 
   try {
-    const response = await fetch("/api/discord-guild", {
+    const response = await fetch("/api/discord", {
       method: "GET",
-      cache: "no-store"
+      cache: "no-store",
+      headers: {
+        "Accept": "application/json"
+      }
     });
 
     if (!response.ok) {
-      throw new Error(`API Error: ${response.status}`);
+      throw new Error(`API returned ${response.status}`);
     }
 
     const data = await response.json();
 
-    console.log("Discord API:", data);
-
     if (!data.success || typeof data.memberCount !== "number") {
-      throw new Error("Invalid Discord API response");
+      throw new Error("Discord member count unavailable");
     }
 
-    // Paparkan jumlah ahli
-    memberElements.forEach(element => {
+    memberElements.forEach((element) => {
       element.textContent = data.memberCount.toLocaleString();
     });
 
-    // Jika ada card Discord
-    discordCards.forEach(card => {
-      card.classList.add("loaded");
-    });
+    console.log(
+      `Discord members loaded: ${data.memberCount}`
+    );
 
   } catch (error) {
-    console.error("Discord member error:", error);
+    console.error("Discord member loading error:", error);
 
-    memberElements.forEach(element => {
+    memberElements.forEach((element) => {
       element.textContent = "—";
     });
   }
 }
-
 // Jalankan selepas page siap
 document.addEventListener("DOMContentLoaded", () => {
   loadDiscordMembers();
